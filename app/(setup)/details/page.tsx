@@ -1,0 +1,1 @@
+export default function Details(){return <h2>Details — Setup</h2>}

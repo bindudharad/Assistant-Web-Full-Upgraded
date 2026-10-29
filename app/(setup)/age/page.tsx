@@ -1,0 +1,1 @@
+export default function Age(){return <h2>Age — Setup</h2>}

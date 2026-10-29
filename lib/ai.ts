@@ -1,0 +1,1 @@
+export const askAI = async (prompt:string)=>({answer:`Echo: ${prompt}`});

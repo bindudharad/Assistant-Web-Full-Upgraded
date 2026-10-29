@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build_and_migrate:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install
+        run: npm ci
+      - name: Run migrations
+        run: npm run migrate
+      - name: Build
+        run: npm run build
+      - name: Smoke test (start and curl)
+        run: |
+          npm run start & sleep 2
+          curl -fsS http://localhost:3000 || exit 1
